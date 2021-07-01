@@ -1,3 +1,7 @@
-export default function () {
-	console.log('hello world');
+class DateFormat {
+	constructor() {}
+
+	valueOf() {}
 }
+
+export default DateFormat;
