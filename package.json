@@ -9,7 +9,7 @@
 	},
 	"author": "z9956",
 	"dependencies": {
-		"rollup": "^2.52.6"
+		"rollup": "^2.52.7"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.14.6",
