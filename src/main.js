@@ -1,3 +1,6 @@
+import * as constant from './constant.js';
+import { prettyUnit, padStart } from './utils.js';
+
 class DateFormat {
 	constructor(dateString) {
 		this.parse(dateString);
@@ -30,16 +33,68 @@ class DateFormat {
 	}
 
 	format(formatStr) {
-		return this.$d;
+		const str = formatStr ?? constant.FORMAT_DEFAULT;
+
+		let { $y, $M, $D, $W, $H, $m, $s, $ms } = this;
+
+		$M = $M + 1;
+
+		const matches = {
+			YY: String($y).slice(-2),
+			YYYY: $y,
+			M: $M,
+			MM: padStart($M, 2, 0),
+			D: $D,
+			DD: padStart($D, 2, 0),
+			d: $W,
+			H: String($H),
+			HH: padStart($H, 2, 0),
+			m: String($m),
+			mm: padStart($m, 2, 0),
+			s: String($s),
+			ss: padStart($s, 2, 0),
+		};
+
+		return str.replace(
+			constant.REGEX_FORMAT,
+			(match, $1) => $1 || matches[match] || '',
+		);
 	}
 
-	diff() {}
+	add(number, units) {
+		number = Number(number);
+		const unit = prettyUnit(units);
+		let { $y, $M, $D, $H, $m, $s, $ms } = this;
 
-	add() {}
+		switch (unit) {
+			case constant.Y:
+				$y += number;
+				break;
+			case constant.M:
+				$M += number;
+				break;
+			case constant.D:
+				$D += number;
+				break;
+			case constant.H:
+				$H += number;
+				break;
+			case constant.MIN:
+				$m += number;
+				break;
+			case constant.S:
+				$s += number;
+				break;
+			case constant.MS:
+				$ms += number;
+				break;
+			default:
+				break;
+		}
 
-	set() {}
-
-	get() {}
+		this.parse(new Date($y, $M, $D, $H, $m, $s, $ms));
+		return this;
+	}
 
 	year() {
 		return this.$y;
@@ -51,7 +106,9 @@ class DateFormat {
  */
 const parseDate = (dateString) => {
 	if (typeof dateString === 'string') {
-		return new Date(Date.parse(dateString));
+		return new Date(dateString);
+	} else if (dateString instanceof Date) {
+		return new Date(dateString);
 	}
 
 	return new Date();
@@ -60,7 +117,7 @@ const parseDate = (dateString) => {
 /**
  * @param { string } dateString
  */
-const dateFormat = (dateString) => {
+let dateFormat = (dateString) => {
 	return new DateFormat(dateString);
 };
 export default dateFormat;

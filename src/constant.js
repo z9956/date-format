@@ -9,7 +9,7 @@ export const Q = 'quarter';
 export const Y = 'year';
 export const DATE = 'date';
 
-export const FORMAT_DEFAULT = 'YYYY-MM-DDTHH:mm:ssZ';
+export const FORMAT_DEFAULT = 'YYYY-MM-DD d HH:mm:ss';
 
 export const REGEX_PARSE =
 	/^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/;
